@@ -1,4 +1,5 @@
 import pytest
+import copy
 
 @pytest.fixture
 def taskDH():
@@ -28,7 +29,8 @@ class TaskDataHandler:
     def persist_task(self, task : Task) -> None:
         self.counter += 1
         task.id = self.counter
-        self.taskList.append(task)
+        persistedTask = copy.deepcopy(task)
+        self.taskList.append(persistedTask)
 
     def retrieve_task(self, id : int) -> Task:
         return next((x for x in self.taskList if x.id == id), None)
@@ -80,7 +82,10 @@ def test_update_task(taskDH, existingTask):
     result = taskDH.update_task(existingTask.id, 'New title')
 
     assert result
-    assert existingTask.title == 'New title'
+
+    updatedTask = taskDH.retrieve_task(existingTask.id)
+    
+    assert updatedTask.title == 'New title'
 
 def test_update_non_existing_task(taskDH):
     result = taskDH.update_task(-1, 'New title')
