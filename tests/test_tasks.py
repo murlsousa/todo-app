@@ -1,6 +1,5 @@
 import pytest
 
-from app.app import app
 from src.task import Task, TaskDAOMock
 
 @pytest.fixture
