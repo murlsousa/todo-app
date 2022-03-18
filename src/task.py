@@ -21,6 +21,10 @@ class TaskDAOMock:
 
         return persistedTask
 
+    def retrieve_tasks(self) -> list[Task]:
+        return self.taskList
+
+
     def retrieve_task(self, id : int) -> Task:
         return next((x for x in self.taskList if x.id == id), None)
     

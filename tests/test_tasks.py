@@ -37,7 +37,20 @@ def test_retrieve_existing_task(taskDH, existingTask):
 def test_retrieve_non_existing_task(taskDH):
     task = taskDH.retrieve_task(-1)
 
-    assert task == None
+def test_retrieve_all_tasks(taskDH):
+    task1 = Task("1st task")
+    task2 = Task("2nd task")
+    task3 = Task("3rd task")
+    task1 = taskDH.persist_task(task1)
+    task2 = taskDH.persist_task(task2)
+    task3 = taskDH.persist_task(task3)
+    taskList = taskDH.retrieve_tasks()
+
+    assert len(taskList) >= 3
+    assert next((x for x in taskList if task1.id == x.id), None)
+    assert next((x for x in taskList if task2.id == x.id), None)
+    assert next((x for x in taskList if task3.id == x.id), None)
+
 
 def test_update_task(taskDH, existingTask):
     oldTitle = existingTask.title

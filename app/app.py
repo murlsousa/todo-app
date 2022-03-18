@@ -26,7 +26,7 @@ class TasksView(Resource):
     #     db.session.commit()
     #     return new_task.json(), 201
 
-api.add_resource(TasksView, '/tasks')
+api.add_resource(TasksView, '/api/tasks')
 
 app.debug = True
 
