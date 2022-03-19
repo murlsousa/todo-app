@@ -19,7 +19,7 @@ class Task:
         return { 'id': self.id, 'title': self.title, 'done': 1 if self.done else 0 }
 
     @staticmethod
-    def decode_jason(jsonTask : dict):
+    def decode_json(jsonTask : dict):
         return Task(jsonTask['title'], jsonTask['id'], True if jsonTask['done'] else False)
         
 

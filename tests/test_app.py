@@ -39,10 +39,22 @@ def test_create_task(client_fxt):
 
     assert response.status_code == 201
 
-    task = Task.decode_jason(responseData)
+    task = Task.decode_json(responseData)
 
     assert task
     assert task.title == taskTitle
     assert task.id > 0
     assert not task.done
+
+def test_create_task_no_title(client_fxt):
+    taskTitle = ''
+    response = client_fxt.post(
+            '/api/tasks',
+            data=json.dumps(dict(
+                title=taskTitle,
+            )),
+            content_type='application/json',
+        )
+    
+    assert response.status_code == 201
 

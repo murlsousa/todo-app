@@ -10,12 +10,17 @@ api = Api(app)
 taskDAOMock = TaskDAOMock()
 
 class TasksEndpoint(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument('title',
-        type=str,
-        required=True,
-        help = "A task must have a title."
-    )
+    
+    # TODO: Look into reqparse?
+    # Example:
+    # parser = reqparse.RequestParser()
+    # parser.add_argument('title',
+    #     type=str,
+    #     required=True,
+    #     help = "A task must have at least 3 characters."
+    # )
+    # USAGE:
+    # data = TasksEndpoint.parser.parse_args()
  
     def get(self):
         tasks = taskDAOMock.retrieve_tasks()
@@ -23,7 +28,6 @@ class TasksEndpoint(Resource):
  
     def post(self):
         data = request.get_json()
-        data = TasksEndpoint.parser.parse_args()
         new_task = taskDAOMock.persist_task(data['title'])
         
         return new_task.encode_json(), 201
