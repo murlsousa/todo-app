@@ -123,3 +123,18 @@ def test_undo_task(task_dao, existing_task):
     task = task_dao.retrieve_task(existing_task.id)
 
     assert not task.done
+
+def test_task_json_decode():
+    taskSample = Task('Testing Decode', 1, True)
+    taskDict = {
+        'title': taskSample.title,
+        'id': taskSample.id,
+        'done': taskSample.done
+    }
+
+    task = Task.decode_json(taskDict)
+
+    assert task
+    assert task.title == taskSample.title
+    assert task.id == taskSample.id
+    assert task.done == taskSample.done
