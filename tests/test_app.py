@@ -26,6 +26,14 @@ def test_get_tasks(client_fxt, existing_task_fxt):
     assert isinstance(responseData['tasks'], list)
     assert next((x for x in responseData['tasks'] if existing_task_fxt.id == x['id']), None)
 
+def test_get_task(client_fxt, existing_task_fxt):
+    response = client_fxt.get('/api/task', query_string={ 'id' = existing_task_fxt.id})
+    responseData = json.loads(response.data.decode())
+    assert response.status_code == 200
+    assert responseData
+    assert isinstance(responseData['tasks'], list)
+    assert next((x for x in responseData['tasks'] if existing_task_fxt.id == x['id']), None)
+
 def test_create_task(client_fxt):
     taskTitle = 'Testing tasks post endpoint'
     response = client_fxt.post(
