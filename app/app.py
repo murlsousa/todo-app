@@ -15,7 +15,7 @@ class TasksView(Resource):
  
     def get(self):
         # tasks = TaskModel.query.all()
-        return {'Tasks':list(x.json() for x in [])}
+        return {'tasks':list(x.json() for x in [])}
  
     # def post(self):
     #     data = request.get_json()
