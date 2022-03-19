@@ -19,7 +19,7 @@ def existing_task_fxt(client_fxt):
     return task
 
 def test_get_tasks(client_fxt, existing_task_fxt):
-    response = client_fxt.get('/api/tasks')
+    response = client_fxt.get('/api/task')
     responseData = json.loads(response.data.decode())
     assert response.status_code == 200
     assert responseData
@@ -29,7 +29,7 @@ def test_get_tasks(client_fxt, existing_task_fxt):
 def test_create_task(client_fxt):
     taskTitle = 'Testing tasks post endpoint'
     response = client_fxt.post(
-            '/api/tasks',
+            '/api/task',
             data=json.dumps(dict(
                 title=taskTitle,
             )),
@@ -49,7 +49,7 @@ def test_create_task(client_fxt):
 def test_create_task_no_title(client_fxt):
     taskTitle = ''
     response = client_fxt.post(
-            '/api/tasks',
+            '/api/task',
             data=json.dumps(dict(
                 title=taskTitle,
             )),

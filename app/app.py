@@ -9,7 +9,7 @@ api = Api(app)
 
 taskDAOMock = TaskDAOMock()
 
-class TasksEndpoint(Resource):
+class TaskEndpoint(Resource):
     
     # TODO: Look into reqparse?
     # Example:
@@ -20,7 +20,7 @@ class TasksEndpoint(Resource):
     #     help = "A task must have at least 3 characters."
     # )
     # USAGE:
-    # data = TasksEndpoint.parser.parse_args()
+    # data = TaskEndpoint.parser.parse_args()
  
     def get(self):
         tasks = taskDAOMock.retrieve_tasks()
@@ -32,7 +32,7 @@ class TasksEndpoint(Resource):
         
         return new_task.encode_json(), 201
 
-api.add_resource(TasksEndpoint, '/api/tasks')
+api.add_resource(TaskEndpoint, '/api/task')
 
 app.debug = True
 
