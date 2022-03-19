@@ -2,7 +2,7 @@ import pytest
 import json
 
 from app.app import app, taskDAOMock
-from src.task import TaskDAOMock, Task
+from src.task import Task
 
 @pytest.fixture
 def client_fxt():
