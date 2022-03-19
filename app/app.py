@@ -22,7 +22,7 @@ class TaskEndpoint(Resource):
     # USAGE:
     # data = TaskEndpoint.parser.parse_args()
  
-    def get(self, id : int):
+    def get(self):
         tasks = taskDAOMock.retrieve_tasks()
         return {'tasks':list(x.encode_json() for x in tasks)}
  
