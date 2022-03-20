@@ -48,9 +48,11 @@ Using pytest to run the unit tests.
 
 > poetry run python -m pytest -rP
 
-You can also run the app and use curl (or postman) to access the endpoints:
+You can also run the app:
 
-poetry run python .\app.py
+> poetry run python .\app.py
+
+and use curl (or postman) to access the endpoints:
 
 ### Get all the tasks
 
