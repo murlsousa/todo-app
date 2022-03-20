@@ -27,7 +27,6 @@ This is the bare-minimum I believe this application should have:
 
 - CRUD actions related to a task
 - REST API
-- Simple web frontend
 - Unit tests
 
 Some stretch goals if I finish that part and still have more time:
@@ -38,3 +37,44 @@ Some stretch goals if I finish that part and still have more time:
 
 ## How to run
 
+## How to test
+
+I used Poetry (https://github.com/python-poetry/poetry) to develop this small app.
+
+Using pytest to run the unit tests.
+
+> poetry run python -m pytest -rP
+
+You can also run the app and use curl (or postman) to access the endpoints:
+
+poetry run python .\app.py
+
+### Get all the tasks
+
+> curl http://localhost:5000/api/task
+
+## Get a single task
+
+Replace #ID# for one of the existing tasks in the system.
+
+> curl http://localhost:5000/api/task/#ID#
+
+### Add a new task
+
+You might need to escape the double quotation marks, or not.
+
+> curl -d '{"title":"A new task"' -H "Content-Type: application/json" -X POST http://localhost:5000/api/task
+
+### To update an existing task
+
+You might need to escape the double quotation marks, or not.
+
+Replace #ID# for one of the existing tasks in the system.
+
+> curl -d '{"title": "testing", "done":"true"}' -H "Content-Type: application/json" -X PUT http://localhost:5000/api/task/#ID#
+
+### To delete an existing task
+
+Replace #ID# for one of the existing tasks in the system.
+
+> curl -H "Content-Type: application/json" -X DELETE http://localhost:5000/api/task/#ID#

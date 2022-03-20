@@ -2,8 +2,8 @@ from turtle import title
 import pytest
 import json
 
-from app.app import app, taskDAOMock
-from src.task import Task
+from app import app, taskDAOMock
+from task import Task, db
 
 @pytest.fixture
 def client_fxt():
@@ -13,9 +13,18 @@ def client_fxt():
         yield client
 
 @pytest.fixture
-def existing_task_fxt():
+def database(request):
+    db.app = app
+    db.drop_all()
+    db.create_all()
+
+    return db
+
+@pytest.fixture
+def existing_task_fxt(database):
     task = Task("Simple task")
-    taskDAOMock.persist_task(task)
+    database.session.add(task)
+    database.session.commit()
 
     return task
 
@@ -73,13 +82,12 @@ def test_create_task_no_title(client_fxt):
     
     assert response.status_code == 400
 
-def test_update_task_title(client_fxt, existing_task_fxt):
-    previousTitle = existing_task_fxt
+def test_update_task(client_fxt, existing_task_fxt):
     response = client_fxt.put(
             f'/api/task/{existing_task_fxt.id}',
             data=json.dumps(dict(
                 title='update me!',
-                done=not existing_task_fxt.done
+                done='1'
             )),
             content_type='application/json',
         )
@@ -89,9 +97,9 @@ def test_update_task_title(client_fxt, existing_task_fxt):
     responseData = json.loads(response.data.decode())
     task = Task.decode_json(responseData)
     assert task
-    assert task.title == 'update me!'
     assert task.id == existing_task_fxt.id
-    assert task.done != existing_task_fxt.done
+    assert task.title == 'update me!'
+    assert task.done
 
 def test_delete_task(client_fxt):
     # assume task creation is working since this is tested elsewhere.

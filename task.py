@@ -54,7 +54,46 @@ class DAOInterface(ABC):
         pass
 
 
-class TaskDBImpl(DAOInterface):
+class TaskDAOMock(DAOInterface):
+
+    def __init__(self) -> None:
+        self.taskList = []
+        self.counter = 0
+    
+    def persist(self, task : Task) -> Task:
+        self.counter += 1
+        task.id = self.counter
+        persistedTask = copy.deepcopy(task)
+        self.taskList.append(persistedTask)
+
+        return persistedTask
+
+    def retrieve_all(self) -> list[Task]:
+        return self.taskList
+
+    def retrieve(self, id : int) -> Task:
+        return next((x for x in self.taskList if x.id == id), None)
+    
+    def update(self, existingTask : Task) -> None:
+        task = self.retrieve(existingTask.id)
+
+        if task:
+            task.title = existingTask.title
+            task.done = existingTask.done
+            return True
+        
+        return False
+    
+    def delete(self, id : int) -> bool:
+        existingTask = self.retrieve(id)
+
+        if existingTask:
+            self.taskList.remove(existingTask)
+            return True
+        
+        return False
+
+class TaskDBImpl(TaskDAOMock):
     
     def persist(self, task : Task) -> Task:
         newTask = Task(task.title)

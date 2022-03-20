@@ -1,13 +1,22 @@
 from flask import Flask,request
 from flask_restful import Api, Resource, abort, reqparse
 
-from src.task import TaskDAOMock
+from task import DAOFactory, Task, db
 
 app = Flask(__name__)
 
 api = Api(app)
 
-taskDAOMock = TaskDAOMock()
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
+
+@app.before_first_request
+def create_table():
+    db.create_all()
+
+taskDAOMock = DAOFactory.get_object_dao('task')
 
 def title_validation():
     def validate(value):
@@ -24,13 +33,9 @@ parser.add_argument('title',
     help = "A task must have at least 3 characters.",
     trim=True
 )
-parser.add_argument('done',
-    type=bool,
-    help = "A task must have at least 3 characters.",
-)
 
 def abort_if_task_not_found(id : int):
-    task = taskDAOMock.retrieve_task(id)
+    task = taskDAOMock.retrieve(id)
     if not task:
         abort(404, message=f"Task with id {id} doesn't exist.")
     
@@ -39,14 +44,15 @@ def abort_if_task_not_found(id : int):
 class TasksEndpoint(Resource):
     
     def get(self):
-        tasks = taskDAOMock.retrieve_tasks()
+        tasks = taskDAOMock.retrieve_all()
         return {'tasks':list(x.encode_json() for x in tasks)}
 
     def post(self):
         data = request.get_json()
         data = parser.parse_args()
 
-        new_task = taskDAOMock.persist_task(data['title'])
+        new_task = Task(data['title'])
+        new_task = taskDAOMock.persist(new_task)
         
         return new_task.encode_json(), 201
 
@@ -58,18 +64,18 @@ class TaskEndpoint(Resource):
         return task.encode_json()
     
     def put(self, id : int):
-        data = parser.parse_args()
+        data = request.get_json()
         task = abort_if_task_not_found(id)
         task.title = data['title']
-        if data['done']:
-            task.done = data['done']
+        if 'done' in data and data['done'] is not None:
+            task.done = True if data['done'] == '1' else False
 
-        taskDAOMock.update_task(task)
+        taskDAOMock.update(task)
         return task.encode_json(), 200
     
     def delete(self, id : int):
         abort_if_task_not_found(id)
-        if taskDAOMock.delete_task(id):
+        if taskDAOMock.delete(id):
             return None, 204
         return "¯\\_(ツ)_/¯", 404
 
