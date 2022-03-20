@@ -2,7 +2,7 @@
 
 ## Requirements
 
-You should build a simple tasks list so that radiologists don’t forget them.
+You should build a simple tasks list so that people don’t forget them.
 
 ### Features:
 
@@ -37,10 +37,10 @@ Some stretch goals if I finish that part and still have more time:
 
 ## How to install
 
-* Download Poetry (https://github.com/python-poetry/poetry) to develop this small app.
-* Download the app from https://github.com/murlsousa/todo-app and clone it.
-* Run "poetry install" in the directory of the project.
-* You should be ready to start testing
+- Download Poetry (https://github.com/python-poetry/poetry) to develop this small app.
+- Download the app from https://github.com/murlsousa/todo-app and clone it.
+- Run "poetry install" in the directory of the project.
+- You should be ready to start testing
 
 ## How to test
 
