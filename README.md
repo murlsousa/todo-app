@@ -35,11 +35,14 @@ Some stretch goals if I finish that part and still have more time:
 - Add an ORM
 - Run in GCP
 
-## How to run
+## How to install
+
+* Download Poetry (https://github.com/python-poetry/poetry) to develop this small app.
+* Download the app from https://github.com/murlsousa/todo-app and clone it.
+* Run "poetry install" in the directory of the project.
+* You should be ready to start testing
 
 ## How to test
-
-I used Poetry (https://github.com/python-poetry/poetry) to develop this small app.
 
 Using pytest to run the unit tests.
 
