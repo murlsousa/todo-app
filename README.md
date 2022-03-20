@@ -58,7 +58,7 @@ and use curl (or postman) to access the endpoints:
 
 > curl http://localhost:5000/api/task
 
-## Get a single task
+### Get a single task
 
 Replace #ID# for one of the existing tasks in the system.
 
