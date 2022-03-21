@@ -37,6 +37,7 @@ Some stretch goals if I finish that part and still have more time:
 
 ## How to install
 
+- Install Python ^3.10
 - Download Poetry (https://github.com/python-poetry/poetry) to develop this small app.
 - Download the app from https://github.com/murlsousa/todo-app and clone it.
 - Run "poetry install" in the directory of the project.
